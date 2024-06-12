@@ -127,7 +127,7 @@
       <header class="h-16 p-2 flex items-center">
           <img src="logo.png" alt="" class="h-full">
       </header>
-      <div class="grid grid-cols-2 px-2 gap-2">
+      <div class="grid h-full md:grid-cols-2 px-2 gap-2">
           <div class="aspect-[4/3] flex items-center justify-center overflow-hidden bg-black/10 rounded">
               <video class="-scale-x-100 w-full " bind:this={remoteVideoRef} autoplay playsinline></video>
           </div>
