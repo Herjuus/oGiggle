@@ -82,8 +82,7 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
         while True:
             data = await websocket.receive_json()
             message = SignalMessage(**data)
-            if message.kind == ('offer' or 'answer' or 'candidate' or 'message'):
-                await room.broadcast(message, websocket)
+            await room.broadcast(message, websocket)
     except WebSocketDisconnect:
         await manager.disconnect_from_room(room_id, websocket)
 

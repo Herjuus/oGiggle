@@ -3,7 +3,7 @@
   import { writable } from 'svelte/store';
 
   type SignalMessage = {
-  kind: 'offer' | 'answer' | 'candidate' | 'message';
+  kind: 'offer' | 'answer' | 'candidate';
   data: string;
   };
 
@@ -19,13 +19,13 @@
   const servers = {
     iceServers: [
       {
-        urls: 'stun:stun.l.google.com:19302',
+        urls: 'stun:stun.l.google.com:19302'
       }
     ]
   };
 
   async function getRandomRoom() {
-  const response = await fetch('http://127.0.0.1:8000/join_random_room');
+  const response = await fetch('http://localhost:8000/join_random_room');
   const data = await response.json();
   roomId.set(data.room_id);
   return data.room_id;
@@ -45,11 +45,11 @@
     }
 
     const roomId = await getRandomRoom();
-    ws = new WebSocket(`ws://127.0.0.1:8000/ws/${roomId}`);
+    ws = new WebSocket(`ws://localhost:8000/ws/${roomId}`);
 
     ws.onmessage = handleSignalingMessage;
 
-    try {      
+    try {
       localStream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
@@ -81,13 +81,13 @@
   }
 
   async function handleSignalingMessage(event: MessageEvent) {
-    const message: SignalMessage = JSON.parse(event.data);
+    const message: SignalMessage = await JSON.parse(event.data);
 
     if (message.kind === 'offer') {
       await peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(message.data)));
       const answer = await peerConnection.createAnswer();
       await peerConnection.setLocalDescription(answer);
-      sendMessage({ kind: 'answer', data: JSON.stringify(answer) });
+      await sendMessage({ kind: 'answer', data: JSON.stringify(answer) });
     } else if (message.kind === 'answer') {
       await peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(message.data)));
     } else if (message.kind === 'candidate') {
@@ -96,7 +96,9 @@
   }
 
   function sendMessage(message: SignalMessage) {
+    if (ws) {
       ws.send(JSON.stringify(message));
+    }
   }
 
   function disconnectCall() {
@@ -125,10 +127,10 @@
     </header>
     <div class="grid grid-cols-2 px-2 gap-2">
         <div class="aspect-[4/3] overflow-hidden bg-black/10 rounded">
-            <video class="-scale-x-100 w-full" bind:this={remoteVideoRef} autoplay playsinline></video>
+            <video class="-scale-x-100 w-full " bind:this={remoteVideoRef} autoplay playsinline></video>
         </div>
         <div class="aspect-[4/3] flex items-center justify-center overflow-hidden bg-black/10 rounded">
-            <video class="-scale-x-100 w-full" bind:this={localVideoRef} autoplay playsinline muted></video>
+            <video class="-scale-x-100 w-full " bind:this={localVideoRef} autoplay playsinline muted></video>
         </div>
 
         <div class="w-full h-full space-y-2">
@@ -139,10 +141,8 @@
           {/if}
           <button disabled={!$inCall} on:click={disconnectCall} class="w-full bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Stop</button>
         </div>
-        <!-- <div class="flex flex-col justify-between">
-          <div class="p-2">
-          </div>
-          <div></div>
-        </div> -->
+        <div>
+
+        </div>
     </div>
 </main>
