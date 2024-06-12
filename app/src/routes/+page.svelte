@@ -25,7 +25,7 @@
   };
 
   async function getRandomRoom() {
-  const response = await fetch('http://127.0.0.1:8000/join_random_room');
+  const response = await fetch(`http${import.meta.env.HTTPS_ENABLED}://api.${import.meta.env.BASE_URL}/join_random_room`);
   const data = await response.json();
   roomId.set(data.room_id);
   return data.room_id;
@@ -45,7 +45,7 @@
     }
 
     const roomId = await getRandomRoom();
-    ws = new WebSocket(`ws://127.0.0.1:8000/ws/${roomId}`);
+    ws = new WebSocket(`ws${import.meta.env.HTTPS_ENABLED}://api.${import.meta.env.BASE_URL}/ws/${roomId}`);
 
     ws.onmessage = handleSignalingMessage;
 

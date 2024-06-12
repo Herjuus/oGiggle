@@ -5,6 +5,9 @@ services:
       - "8000:8000"
   web:
     build: ./app/.
+    environment:
+      - BASE_URL=ogiggle.herjus.no
+      - HTTPS_ENABLED=s
     ports:
       - "3000:3000"
     depends_on:
