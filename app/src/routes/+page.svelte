@@ -25,7 +25,7 @@
   };
 
   async function getRandomRoom() {
-  const response = await fetch(`http${import.meta.env.HTTPS_ENABLED}://api.${import.meta.env.BASE_URL}/join_random_room`);
+  const response = await fetch(`https://api.ogiggle.herjus.no/join_random_room`);
   const data = await response.json();
   roomId.set(data.room_id);
   return data.room_id;
@@ -45,7 +45,7 @@
     }
 
     const roomId = await getRandomRoom();
-    ws = new WebSocket(`ws${import.meta.env.HTTPS_ENABLED}://api.${import.meta.env.BASE_URL}/ws/${roomId}`);
+    ws = new WebSocket(`wss://api.ogiggle.herjus.no/ws/${roomId}`);
 
     ws.onmessage = handleSignalingMessage;
 
