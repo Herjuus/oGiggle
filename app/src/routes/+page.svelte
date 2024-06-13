@@ -123,28 +123,41 @@
     }
   </script>
 
-  <main class="max-h-screen">
+  <main class="min-h-screen max-h-screen h-screen flex flex-col">
       <header class="h-16 p-2 flex items-center">
           <img src="logo.png" alt="" class="h-full">
       </header>
-      <div class="grid h-full md:grid-cols-2 px-2 gap-2">
-          <div class="aspect-[4/3] flex items-center justify-center overflow-hidden bg-black/10 rounded">
-              <video class="-scale-x-100 w-full " bind:this={remoteVideoRef} autoplay playsinline></video>
-          </div>
-          <div class="aspect-[4/3] flex items-center justify-center overflow-hidden bg-black/10 rounded">
-              <video class="-scale-x-100 w-full " bind:this={localVideoRef} autoplay playsinline muted></video>
-          </div>
-
-          <div class="w-full h-full space-y-2">
+      <div class="grid md:grid-cols-2 px-2 gap-2 mb-2">
+        <div class="aspect-[4/3] flex items-center justify-center overflow-hidden bg-black/10 rounded">
+          <video class="w-full" bind:this={remoteVideoRef} autoplay playsinline></video>
+        </div>
+        <div class="aspect-[4/3] flex items-center justify-center overflow-hidden bg-black/10 rounded">
+            <video class="-scale-x-100 w-full " bind:this={localVideoRef} autoplay playsinline muted></video>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 px-2 gap-2 h-full pb-2">
+          <div class="w-full space-y-2 flex flex-col">
             {#if !$inCall}
-              <button on:click={startCall} class="w-full bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Start</button>
+              <button on:click={startCall} class="w-full flex-1 bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Start</button>
             {:else}
-              <button on:click={skipCall} class="w-full bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Skip</button>
+              <button on:click={skipCall} class="w-full flex-1 bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Skip</button>
             {/if}
-            <button disabled={!$inCall} on:click={disconnectCall} class="w-full bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Stop</button>
+            <button disabled={!$inCall} on:click={disconnectCall} class="w-full h-1/2 bg-ogiggle-light disabled:bg-ogiggle-dark font-bold text-gray-50 text-3xl rounded p-2 border-b-8 border-ogiggle-dark disabled:border-ogiggle-light enabled:hover:scale-[98%] duration-200">Stop</button>
           </div>
           <div>
-
+            <div class="h-full bg-black/10 rounded flex justify-between flex-col p-2">
+              <div class="h-full bg-black/10 rounded flex justify-between flex-col p-2 box-border">
+                <div class="flex flex-col-reverse h-full">
+                  <p>for real</p>
+                  <p>for real</p>
+                  <p>for real</p>
+                  <p>for real</p>
+                  <p>for real</p>
+                  <p>for real</p>
+                  <p>for real</p>
+                </div>
+                <input class="w-full rounded p-2" type="text" placeholder="Type message...">
+              </div>
           </div>
       </div>
   </main>
